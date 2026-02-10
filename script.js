@@ -56,14 +56,19 @@ function verifyAge() {
     modal.classList.add('hidden');
     setTimeout(() => modal.style.display = 'none', 500);
     localStorage.setItem('ageVerified', 'true');
+    document.body.style.overflow = 'auto';
 }
 
 // Check verification on load
 window.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('ageVerified') === 'true') {
         document.getElementById('age-modal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    } else {
+        document.body.style.overflow = 'hidden';
     }
 });
+
 
 function renderProducts() {
     const cigGrid = document.getElementById('cigarette-grid');
@@ -92,6 +97,7 @@ function renderProducts() {
         if (p.category === 'cigarette') cigGrid.innerHTML += card;
         else drinkGrid.innerHTML += card;
     });
+    lucide.createIcons();
 }
 
 function addToCart(id) {
@@ -225,15 +231,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 const track = document.querySelector(".horizontal-track");
 
-gsap.to(track, {
-    x: () => -(track.scrollWidth - window.innerWidth),
-    ease: "none",
-    scrollTrigger: {
-        trigger: ".horizontal-section",
-        start: "top top",
-        end: () => "+=" + (track.scrollWidth - window.innerWidth),
-        scrub: 1,
-        pin: true,
-        anticipatePin: 1
-    }
-});
+if (track) {
+    gsap.to(track, {
+        x: () => -(track.scrollWidth - window.innerWidth),
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".horizontal-section",
+            start: "top top",
+            end: () => "+=" + (track.scrollWidth - window.innerWidth),
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1
+        }
+    });
+}
+
